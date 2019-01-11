@@ -23,7 +23,7 @@ Once your openHAB instance successfully requested the authentication token, the 
 The lightpanels thing is configured with the following parameters:
 
 | Config          | Description                                                                           |
-| --------------- | -------------------------------------------------------------------------------------:|
+| --------------- | ------------------------------------------------------------------------------------- |
 | ipAddress       | IP address of the light panels controller (e.g. 192.168.1.100)                        |
 | port            | Port number of the light panels contoller. Default is 16021                           |
 | authToken       | The authentication token received from the controller after successful pairing.       |
