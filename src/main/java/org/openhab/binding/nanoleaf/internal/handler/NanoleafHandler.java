@@ -319,7 +319,7 @@ public class NanoleafHandler extends BaseThingHandler {
                     ControllerInfo.class);
 
             // update channels
-            updateState(CHANNEL_POWER, OnOffType.from(controllerInfo.getState().getOn().getValue()));
+            updateState(CHANNEL_POWER, controllerInfo.getState().getOn().getValue() ? OnOffType.ON : OnOffType.OFF);
             updateState(CHANNEL_BRIGHTNESS,
                     new PercentType(controllerInfo.getState().getBrightness().getValue().intValue()));
             updateState(CHANNEL_COLOR_TEMPERATURE,
@@ -328,9 +328,11 @@ public class NanoleafHandler extends BaseThingHandler {
             updateState(CHANNEL_SATURATION, new PercentType(controllerInfo.getState().getSat().getValue().intValue()));
             updateState(CHANNEL_EFFECT, new StringType(controllerInfo.getEffects().getSelect()));
             updateState(CHANNEL_COLOR_MODE, new StringType(controllerInfo.getState().getColorMode()));
-            updateState(CHANNEL_RHYTHM_ACTIVE, OnOffType.from(controllerInfo.getRhythm().getRhythmActive()));
+            updateState(CHANNEL_RHYTHM_ACTIVE,
+                    controllerInfo.getRhythm().getRhythmActive().booleanValue() ? OnOffType.ON : OnOffType.OFF);
             updateState(CHANNEL_RHYTHM_MODE, new DecimalType(controllerInfo.getRhythm().getRhythmMode().intValue()));
-            updateState(CHANNEL_RHYTHM_STATE, OnOffType.from(controllerInfo.getRhythm().getRhythmConnected()));
+            updateState(CHANNEL_RHYTHM_STATE,
+                    controllerInfo.getRhythm().getRhythmConnected().booleanValue() ? OnOffType.ON : OnOffType.OFF);
 
             // update properties
             Map<String, String> properties = editProperties();
