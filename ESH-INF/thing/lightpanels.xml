@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="nanoleaf" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+	<thing-type id="lightpanels">
+		<label>Nanoleaf Light Panels</label>
+		<description>Light Panels for Nanoleaf Binding</description>
+
+		<channels>
+			<channel id="power" typeId="power" />
+			<channel id="brightness" typeId="brightness" />
+			<channel id="hue" typeId="hue" />
+			<channel id="saturation" typeId="saturation" />
+			<channel id="colorTemperature" typeId="colorTemperature" />
+			<channel id="colorMode" typeId="colorMode" />
+			<channel id="effect" typeId="effect" />
+			<channel id="rhythmState" typeId="rhythmState" />
+			<channel id="rhythmActive" typeId="rhythmActive" />
+			<channel id="rhythmMode" typeId="rhythmMode" />
+		</channels>
+		
+		<properties>
+			<property name="vendor" />
+			<property name="serialNumber" />
+			<property name="firmwareVersion" />
+			<property name="modelId" />
+		</properties>
+
+		<config-description-ref uri="thing-type:nanoleaf:lightpanels" />
+	</thing-type>
+
+	<channel-type id="power">
+		<item-type>Switch</item-type>
+		<label>Power state</label>
+		<description>Power state of the light panels</description>
+		<category>Switch</category>
+		<state readOnly="false">
+			<options>
+				<option value="ON">On</option>
+				<option value="OFF">Off</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="brightness">
+		<item-type>Dimmer</item-type>
+		<label>Brightness</label>		
+		<description>Brightness of the light panels</description>
+		<category>Light</category>
+		<state min="0" max="100" step="1" readOnly="false" />
+	</channel-type>
+	
+	<channel-type id="hue">
+		<item-type>Number</item-type>
+		<label>Hue</label>
+		<description>Hue of the light panels</description>
+		<state min="0" max="360" step="1" readOnly="false" />
+	</channel-type>
+
+	<channel-type id="saturation">
+		<item-type>Dimmer</item-type>
+		<label>Saturation</label>
+		<description>Saturation of the light panels</description>
+		<state min="0" max="100" step="1" readOnly="false" />
+	</channel-type>
+	
+	<channel-type id="colorTemperature">
+		<item-type>Number</item-type>
+		<label>Color Temperature</label>
+		<description>Color temperature (in Kelvin) of the light panels</description>
+		<category>ColorLight</category>
+		<state min="1200" max="6500" step="100" readOnly="false" />
+	</channel-type>	
+	
+	<channel-type id="colorMode">
+		<item-type>String</item-type>
+		<label>Color Mode</label>
+		<description>Color mode of the light panels (read only)</description>
+		<state readOnly="true" >
+			<options>
+					<option value="effect">Effect mode</option>
+					<option value="hs">Hue/Saturation</option>
+					<option value="ct">Color temperature</option>
+			</options>
+		</state>
+	</channel-type>  
+	
+	<channel-type id="effect">
+		<item-type>String</item-type>
+		<label>Effect</label>
+		<description>Selected effect of the light panels</description>
+		<state readOnly="false" />
+	</channel-type>
+	
+	<channel-type id="rhythmState">
+		<item-type>Switch</item-type>
+		<label>Rhythm state</label>
+		<description>Connection state of the rhythm module</description>
+		<category>Switch</category>
+		<state readOnly="true">
+			<options>
+				<option value="true">Connected</option>
+				<option value="false">Disconnected</option>
+			</options>
+		</state>
+	</channel-type>
+	
+	<channel-type id="rhythmActive">
+		<item-type>Switch</item-type>
+		<label>Rhythm active</label>
+		<description>Activity state of the rhythm module</description>
+		<category>Switch</category>
+		<state readOnly="true">
+			<options>
+				<option value="true">Active</option>
+				<option value="false">Inactive</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="rhythmMode">
+		<item-type>Number</item-type>
+		<label>Rhythm source</label>
+		<description>Sound source for the rhythm module</description>
+		<state min="0" max="1" readOnly="false">
+			<options>
+				<option value="0">Microphone</option>
+				<option value="1">Aux cable</option>
+			</options>
+		</state>
+	</channel-type>
+	
+</thing:thing-descriptions>

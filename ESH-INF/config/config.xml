@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config-description:config-descriptions
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:config-description="http://eclipse.org/smarthome/schemas/config-description/v1.0.0"
+	xsi:schemaLocation="http://eclipse.org/smarthome/schemas/config-description/v1.0.0 http://eclipse.org/smarthome/schemas/config-description-1.0.0.xsd">
+
+	<config-description uri="thing-type:nanoleaf:lightpanels">
+			<parameter name="ipAddress" type="text" required="true">
+				<label>IP address</label>
+				<description>The local IP address or hostname of the Nanoleaf Light Panels.</description>
+			</parameter>
+			<parameter name="port" type="integer" required="true" min="1" max="65335">
+				<label>Port</label>
+				<description>The local port of the Nanoleaf Light Panels API.</description> 
+				<default>16021</default>
+			</parameter>
+			<parameter name="authToken" type="text" required="true">
+				<context>password</context>
+				<label>Authentication Token</label>
+				<description>Authentication token to connect to the Nanoleaf Light Panels. For pairing, leave empty and press the controller on-off button for 5-7 seconds until the LED starts flashing in a pattern.</description>
+			</parameter>
+			<parameter name="refreshInterval" type="integer" unit="s">
+				<label>Refresh Interval</label>
+				<description>States how often a refresh shall occur in seconds.
+				</description>
+				<default>60</default>
+			</parameter>
+	</config-description>
+</config-description:config-descriptions>
