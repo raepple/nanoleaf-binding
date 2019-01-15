@@ -1,4 +1,3 @@
-
 /**
  * Copyright (c) 2010-2019 by the respective copyright holders.
  *

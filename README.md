@@ -13,6 +13,7 @@ The binding supports one thing type: lightpanels
 A Light Panels device is discovered automatically through mDNS in the local network. Alternatively, you can also provide a things file (see below for more details). After the device is discovered and added as a thing, it needs a valid authentication token that must be obtained by pairing it with your openHAB instance. Without the token the light panels remain in status OFFLINE.
 
 The binding supports pairing of the device with your openHAB instance as follows:
+
 1. Make sure that the Authentication Token in your thing configuration is left empty.
 2. Hold down the on-off button of the Light Panels controller for 5-7 seconds until the LED starts flashing in a pattern. This turns the device in pairing mode, and openHAB will try to request an authentication token for it.
 
@@ -50,11 +51,13 @@ The lightpanels thing is configured with the following parameters:
 Below is a full example for a configuration (using things file instead of automatic discovery):
 
 ### nanoleaf.things
+
 ```
 nanoleaf:lightpanels:MyLightPanels [ ipAddress="192.168.1.100", port=16021, authToken="AbcDefGhiJk879LmNopqRstUv1234WxyZ", refreshInterval=60 ]
 ```
 
 ### nanoleaf.items
+
 ```
 Switch NanoleafPower "Nanoleaf" { channel="nanoleaf:lightpanels:MyLightPanels:power" }
 Dimmer NanoleafBrightness "Helligkeit [%.0f]" { channel="nanoleaf:lightpanels:MyLightPanels:brightness" }
@@ -70,6 +73,7 @@ Number NanoleafRhythmSource  "Rhythm Quelle" { channel="nanoleaf:lightpanels:MyL
 ```
 
 ### nanoleaf.sitemap
+
 ```
 sitemap nanoleaf label="Nanoleaf"
 {
@@ -90,6 +94,7 @@ sitemap nanoleaf label="Nanoleaf"
 ```
 
 ### nanoleaf.map
+
 ```
 ON=Ja
 OFF=Nein
