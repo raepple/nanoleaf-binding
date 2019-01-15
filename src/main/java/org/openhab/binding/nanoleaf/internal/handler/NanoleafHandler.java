@@ -12,6 +12,8 @@ import static org.openhab.binding.nanoleaf.internal.NanoleafBindingConstants.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledFuture;
@@ -31,6 +33,7 @@ import org.eclipse.jetty.http.HttpScheme;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.library.types.DecimalType;
+import org.eclipse.smarthome.core.library.types.HSBType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.eclipse.smarthome.core.library.types.StringType;
@@ -53,7 +56,9 @@ import org.openhab.binding.nanoleaf.internal.model.Effects;
 import org.openhab.binding.nanoleaf.internal.model.Hue;
 import org.openhab.binding.nanoleaf.internal.model.IntegerState;
 import org.openhab.binding.nanoleaf.internal.model.On;
+import org.openhab.binding.nanoleaf.internal.model.Palette;
 import org.openhab.binding.nanoleaf.internal.model.Sat;
+import org.openhab.binding.nanoleaf.internal.model.Write;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +125,22 @@ public class NanoleafHandler extends BaseThingHandler {
 
     private void sendEffectCommand(Command command) throws NanoleafException {
         Effects effects = new Effects();
-        effects.setSelect(command.toString());
+        if (command instanceof HSBType) {
+            Write write = new Write();
+            write.setCommand("display");
+            write.setAnimType("solid");
+            Palette palette = new Palette();
+            palette.setBrightness(((HSBType) command).getBrightness().intValue());
+            palette.setHue(((HSBType) command).getHue().intValue());
+            palette.setSaturation(((HSBType) command).getSaturation().intValue());
+            List<Palette> palettes = new ArrayList<Palette>();
+            palettes.add(palette);
+            write.setPalette(palettes);
+            write.setColorType("HSB");
+            effects.setWrite(write);
+        } else if (command instanceof StringType) {
+            effects.setSelect(command.toString());
+        }
         Request setNewEffectRequest = requestBuilder(API_SELECT_EFFECT, HttpMethod.PUT);
         setNewEffectRequest.content(new StringContentProvider(gson.toJson(effects)), "application/json");
         sendOpenAPIRequest(setNewEffectRequest);
@@ -143,6 +163,9 @@ public class NanoleafHandler extends BaseThingHandler {
                 case CHANNEL_HUE:
                     sendStateCommand(Hue.class.getName(), command);
                     break;
+                case CHANNEL_COLOR:
+                    sendEffectCommand(command);
+                    break;
                 case CHANNEL_COLOR_TEMPERATURE:
                     sendStateCommand(Ct.class.getName(), command);
                     break;
@@ -152,11 +175,8 @@ public class NanoleafHandler extends BaseThingHandler {
                 case CHANNEL_SATURATION:
                     sendStateCommand(Sat.class.getName(), command);
                     break;
-                case CHANNEL_RHYTHM_ACTIVE:
-                    break;
                 case CHANNEL_RHYTHM_MODE:
-                    break;
-                case CHANNEL_RHYTHM_STATE:
+                    // TODO: Implement mode change for rhythm module source
                     break;
                 default:
                     logger.error("Channel with id {} not handled", channelUID.getId());

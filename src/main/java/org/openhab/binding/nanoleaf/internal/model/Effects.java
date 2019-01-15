@@ -14,7 +14,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents selected effect and effect list of the light panels
+ * Represents effect commands for select and write
  *
  * @author Martin Raepple - Initial contribution
  */
@@ -26,6 +26,9 @@ public class Effects {
     @SerializedName("effectsList")
     @Expose
     private List<String> effectsList = null;
+    @SerializedName("write")
+    @Expose
+    private Write write;
 
     public String getSelect() {
         return select;
@@ -41,6 +44,14 @@ public class Effects {
 
     public void setEffectsList(List<String> effectsList) {
         this.effectsList = effectsList;
+    }
+
+    public Write getWrite() {
+        return write;
+    }
+
+    public void setWrite(Write write) {
+        this.write = write;
     }
 
 }

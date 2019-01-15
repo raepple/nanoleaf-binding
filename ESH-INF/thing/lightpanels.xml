@@ -12,6 +12,7 @@
 			<channel id="brightness" typeId="brightness" />
 			<channel id="hue" typeId="hue" />
 			<channel id="saturation" typeId="saturation" />
+			<channel id="color" typeId="color" />
 			<channel id="colorTemperature" typeId="colorTemperature" />
 			<channel id="colorMode" typeId="colorMode" />
 			<channel id="effect" typeId="effect" />
@@ -86,6 +87,13 @@
 		</state>
 	</channel-type>  
 	
+	<channel-type id="color">
+		<item-type>Color</item-type>
+		<label>Color</label>
+		<description>Color of the Light Panels</description>
+		<state readOnly="false"/>
+	</channel-type>
+	
 	<channel-type id="effect">
 		<item-type>String</item-type>
 		<label>Effect</label>
@@ -96,27 +104,15 @@
 	<channel-type id="rhythmState">
 		<item-type>Switch</item-type>
 		<label>Rhythm state</label>
-		<description>Connection state of the rhythm module</description>
-		<category>Switch</category>
-		<state readOnly="true">
-			<options>
-				<option value="true">Connected</option>
-				<option value="false">Disconnected</option>
-			</options>
-		</state>
+		<description>Connection state of the rhythm module</description>		
+		<state readOnly="true"/>
 	</channel-type>
 	
 	<channel-type id="rhythmActive">
 		<item-type>Switch</item-type>
 		<label>Rhythm active</label>
 		<description>Activity state of the rhythm module</description>
-		<category>Switch</category>
-		<state readOnly="true">
-			<options>
-				<option value="true">Active</option>
-				<option value="false">Inactive</option>
-			</options>
-		</state>
+		<state readOnly="true"/>
 	</channel-type>
 
 	<channel-type id="rhythmMode">

@@ -37,9 +37,10 @@ The lightpanels thing is configured with the following parameters:
 | brightness          | Dimmer    | Brightness of the light panels (0 to 100)                              | No        |
 | hue                 | Number    | Hue of the light panels (0 to 360)                                     | No        |
 | saturation          | Dimmer    | Saturation of the light panels (0 to 100)                              | No        |
+| color               | Color     | Color of the light panels                                              | No        |
 | colorTemperature    | Number    | Color temperature (in Kelvin, 1200 to 6500)) of the light panels       | No        |
 | colorMode           | String    | Color mode of the light panels                                         | Yes       |
-| effect              | String    | Selected effect of the light panels.                                   | No        |
+| effect              | String    | Selected effect of the light panels                                    | No        |
 | rhythmState         | Switch    | Connection state of the rhythm module                                  | Yes       |
 | rhythmActive        | Switch    | Activity state of the rhythm module                                    | Yes       |
 | rhythmMode          | Number    | Sound source for the rhythm module. 1=Microphone, 2=Aux cable          | No        |
@@ -59,6 +60,7 @@ Switch NanoleafPower "Nanoleaf" { channel="nanoleaf:lightpanels:MyLightPanels:po
 Dimmer NanoleafBrightness "Helligkeit [%.0f]" { channel="nanoleaf:lightpanels:MyLightPanels:brightness" }
 Number NanoleafHue "Farbton [%.00f]" { channel="nanoleaf:lightpanels:MyLightPanels:hue" }
 Dimmer NanoleafSaturation "Sättigung [%.0f]" { channel="nanoleaf:lightpanels:MyLightPanels:saturation" }
+Color NanoleafColor "Farbe" { channel="nanoleaf:lightpanels:MyLightPanels:color" }
 Number NanoleafColorTemp "Farbtemperatur [%.000f]" { channel="nanoleaf:lightpanels:MyLightPanels:colorTemperature" }
 String NanoleafColorMode "Farbmodus [MAP(nanoleaf.map):%s]" { channel="nanoleaf:lightpanels:MyLightPanels:colorMode" }
 String NanoleafEffect "Effekt" { channel="nanoleaf:lightpanels:MyLightPanels:effect" }
@@ -73,7 +75,8 @@ sitemap nanoleaf label="Nanoleaf"
 {
     Frame label="Nanoleaf" {
             Switch item=NanoleafPower
-            Slider item=NanoleafBrightness            
+            Slider item=NanoleafBrightness 
+            Colorpicker item=NanoleafColor           
             Slider item=NanoleafSaturation
             Setpoint item=NanoleafColorTemp step=100 minValue=1200 maxValue=6500
             Setpoint item=NanoleafHue step=10 minValue=0 maxValue=360

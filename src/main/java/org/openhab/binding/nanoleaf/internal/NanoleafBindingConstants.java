@@ -35,6 +35,7 @@ public class NanoleafBindingConstants {
     public static final String CHANNEL_BRIGHTNESS = "brightness";
     public static final String CHANNEL_HUE = "hue";
     public static final String CHANNEL_SATURATION = "saturation";
+    public static final String CHANNEL_COLOR = "color";
     public static final String CHANNEL_COLOR_TEMPERATURE = "colorTemperature";
     public static final String CHANNEL_COLOR_MODE = "colorMode";
     public static final String CHANNEL_EFFECT = "effect";
