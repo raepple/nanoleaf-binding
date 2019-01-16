@@ -69,7 +69,7 @@ String NanoleafColorMode "Farbmodus [MAP(nanoleaf.map):%s]" { channel="nanoleaf:
 String NanoleafEffect "Effekt" { channel="nanoleaf:lightpanels:MyLightPanels:effect" }
 Switch NanoleafRhythmState "Rhythm verbunden [MAP(nanoleaf.map):%s]" { channel="nanoleaf:lightpanels:MyLightPanels:rhythmState" }
 Switch NanoleafRhythmActive "Rhythm aktiv [MAP(nanoleaf.map):%s]" { channel="nanoleaf:lightpanels:MyLightPanels:rhythmActive" }
-Number NanoleafRhythmSource  "Rhythm Quelle" { channel="nanoleaf:lightpanels:MyLightPanels:rhythmMode" }
+Number NanoleafRhythmSource  "Rhythm Quelle [%s]" { channel="nanoleaf:lightpanels:MyLightPanels:rhythmMode" }
 ```
 
 ### nanoleaf.sitemap

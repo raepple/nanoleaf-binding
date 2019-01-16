@@ -57,6 +57,7 @@ import org.openhab.binding.nanoleaf.internal.model.Hue;
 import org.openhab.binding.nanoleaf.internal.model.IntegerState;
 import org.openhab.binding.nanoleaf.internal.model.On;
 import org.openhab.binding.nanoleaf.internal.model.Palette;
+import org.openhab.binding.nanoleaf.internal.model.Rhythm;
 import org.openhab.binding.nanoleaf.internal.model.Sat;
 import org.openhab.binding.nanoleaf.internal.model.Write;
 import org.slf4j.Logger;
@@ -140,10 +141,26 @@ public class NanoleafHandler extends BaseThingHandler {
             effects.setWrite(write);
         } else if (command instanceof StringType) {
             effects.setSelect(command.toString());
+        } else {
+            logger.error("Unhandled command type: {}", command.getClass().getName());
+            throw new NanoleafException("Unhandled command type");
         }
         Request setNewEffectRequest = requestBuilder(API_SELECT_EFFECT, HttpMethod.PUT);
         setNewEffectRequest.content(new StringContentProvider(gson.toJson(effects)), "application/json");
         sendOpenAPIRequest(setNewEffectRequest);
+    }
+
+    private void sendRhythmCommand(Command command) throws NanoleafException {
+        Rhythm rhythm = new Rhythm();
+        if (command instanceof DecimalType) {
+            rhythm.setRhythmMode(((DecimalType) command).intValue());
+        } else {
+            logger.error("Unhandled command type: {}", command.getClass().getName());
+            throw new NanoleafException("Unhandled command type");
+        }
+        Request setNewRhythmRequest = requestBuilder(API_RHYTHM_MODE, HttpMethod.PUT);
+        setNewRhythmRequest.content(new StringContentProvider(gson.toJson(rhythm)), "application/json");
+        sendOpenAPIRequest(setNewRhythmRequest);
     }
 
     @Override
@@ -176,7 +193,7 @@ public class NanoleafHandler extends BaseThingHandler {
                     sendStateCommand(Sat.class.getName(), command);
                     break;
                 case CHANNEL_RHYTHM_MODE:
-                    // TODO: Implement mode change for rhythm module source
+                    sendRhythmCommand(command);
                     break;
                 default:
                     logger.error("Channel with id {} not handled", channelUID.getId());

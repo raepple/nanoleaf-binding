@@ -48,6 +48,6 @@ public class NanoleafBindingConstants {
     public static final String API_GET_CONTROLLER_INFO = "/";
     public static final String API_ADD_USER = "/new";
     public static final String API_SET_VALUE = "/state";
-    public static final String API_COLOR_MODE = "/state/colorMode";
     public static final String API_SELECT_EFFECT = "/effects";
+    public static final String API_RHYTHM_MODE = "/rhythm/rhythmMode";
 }
