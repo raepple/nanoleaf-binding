@@ -85,4 +85,21 @@ public class State {
         this.colorMode = colorMode;
     }
 
+    public void setState(IntegerState value) {
+        if (value instanceof Brightness) {
+            this.setBrightness((Brightness) value);
+        } else if (value instanceof Hue) {
+            this.setHue((Hue) value);
+        } else if (value instanceof Sat) {
+            this.setSat((Sat) value);
+        } else if (value instanceof Ct) {
+            this.setCt((Ct) value);
+        }
+    }
+
+    public void setState(BooleanState value) {
+        if (value instanceof On) {
+            this.setOn((On) value);
+        }
+    }
 }

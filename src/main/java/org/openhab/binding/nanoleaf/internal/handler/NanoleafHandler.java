@@ -59,13 +59,12 @@ import org.openhab.binding.nanoleaf.internal.model.On;
 import org.openhab.binding.nanoleaf.internal.model.Palette;
 import org.openhab.binding.nanoleaf.internal.model.Rhythm;
 import org.openhab.binding.nanoleaf.internal.model.Sat;
+import org.openhab.binding.nanoleaf.internal.model.State;
 import org.openhab.binding.nanoleaf.internal.model.Write;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 /**
@@ -99,25 +98,22 @@ public class NanoleafHandler extends BaseThingHandler {
 
     private void sendStateCommand(String stateClass, Command command) throws NanoleafException {
         try {
-            JsonObject jo = new JsonObject();
-            JsonElement je = null;
+            State stateObject = new State();
             if (command instanceof DecimalType) {
                 IntegerState state = (IntegerState) Class.forName(stateClass).newInstance();
                 state.setValue(((DecimalType) command).intValue());
-                je = gson.toJsonTree(state);
-                jo.add(state.getClass().getSimpleName().toLowerCase(), je);
+                stateObject.setState(state);
             } else if (command instanceof OnOffType) {
                 BooleanState state = (BooleanState) Class.forName(stateClass).newInstance();
                 state.setValue(OnOffType.ON.equals(command));
-                je = gson.toJsonTree(state);
-                jo.add(state.getClass().getSimpleName().toLowerCase(), je);
+                stateObject.setState(state);
             } else {
                 logger.error("Unhandled command type: {}", command.getClass().getName());
                 throw new NanoleafException("Unhandled command type");
             }
-            Request setNewValueRequest = requestBuilder(API_SET_VALUE, HttpMethod.PUT);
-            setNewValueRequest.content(new StringContentProvider(gson.toJson(jo)), "application/json");
-            sendOpenAPIRequest(setNewValueRequest);
+            Request setNewStateRequest = requestBuilder(API_SET_VALUE, HttpMethod.PUT);
+            setNewStateRequest.content(new StringContentProvider(gson.toJson(stateObject)), "application/json");
+            sendOpenAPIRequest(setNewStateRequest);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             logger.error("Failed to send command");
             throw new NanoleafException(String.format("Send state command failed: %s", e.getMessage()));
@@ -141,6 +137,8 @@ public class NanoleafHandler extends BaseThingHandler {
             effects.setWrite(write);
         } else if (command instanceof StringType) {
             effects.setSelect(command.toString());
+        } else if (command instanceof OnOffType) {
+            sendStateCommand(On.class.getName(), command);
         } else {
             logger.error("Unhandled command type: {}", command.getClass().getName());
             throw new NanoleafException("Unhandled command type");
@@ -166,7 +164,6 @@ public class NanoleafHandler extends BaseThingHandler {
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
         logger.debug("Received channel: {}, command: {}", channelUID, command);
-
         if (command instanceof RefreshType) {
             updateFromControllerInfo();
         } else {
