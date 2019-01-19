@@ -195,7 +195,11 @@ public class NanoleafHandler extends BaseThingHandler {
                     sendEffectCommand(command);
                     break;
                 case CHANNEL_SATURATION:
-                    sendStateCommand(Sat.class.getName(), command);
+                    if (command instanceof OnOffType) {
+                        sendStateCommand(On.class.getName(), command);
+                    } else {
+                        sendStateCommand(Sat.class.getName(), command);
+                    }
                     break;
                 case CHANNEL_RHYTHM_MODE:
                     sendRhythmCommand(command);
