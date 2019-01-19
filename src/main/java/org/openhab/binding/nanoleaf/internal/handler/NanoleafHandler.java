@@ -176,7 +176,11 @@ public class NanoleafHandler extends BaseThingHandler {
                     sendStateCommand(On.class.getName(), command);
                     break;
                 case CHANNEL_BRIGHTNESS:
-                    sendStateCommand(Brightness.class.getName(), command);
+                    if (command instanceof OnOffType) {
+                        sendStateCommand(On.class.getName(), command);
+                    } else {
+                        sendStateCommand(Brightness.class.getName(), command);
+                    }
                     break;
                 case CHANNEL_HUE:
                     sendStateCommand(Hue.class.getName(), command);
