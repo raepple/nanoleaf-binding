@@ -17,7 +17,7 @@ package org.openhab.binding.nanoleaf.internal;
  *
  * @author Martin Raepple - Initial contribution
  */
-public class NanoleafException extends RuntimeException {
+public class NanoleafException extends Exception {
     private static final long serialVersionUID = 1L;
 
     public NanoleafException(String message) {

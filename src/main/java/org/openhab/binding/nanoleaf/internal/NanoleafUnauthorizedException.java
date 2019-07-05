@@ -13,7 +13,7 @@
 package org.openhab.binding.nanoleaf.internal;
 
 /**
- * Exception if request to OpenAPI is unauthorized (e.g. invalid or missing auth token)
+ * Exception if request to Nanoleaf OpenAPI is unauthorized (e.g. invalid or missing auth token)
  *
  * @author Martin Raepple - Initial contribution
  */

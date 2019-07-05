@@ -12,7 +12,6 @@
  */
 package org.openhab.binding.nanoleaf.internal.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -23,37 +22,34 @@ import com.google.gson.annotations.SerializedName;
 public class RhythmPos {
 
     @SerializedName("x")
-    @Expose
-    private Integer x;
+    private Float posX;
     @SerializedName("y")
-    @Expose
-    private Integer y;
+    private Float posY;
     @SerializedName("o")
-    @Expose
-    private Integer o;
+    private Float orientation;
 
-    public Integer getX() {
-        return x;
+    public Float getPosX() {
+        return posX;
     }
 
-    public void setX(Integer x) {
-        this.x = x;
+    public void setPosX(Float x) {
+        this.posX = x;
     }
 
-    public Integer getY() {
-        return y;
+    public Float getPosY() {
+        return posY;
     }
 
-    public void setY(Integer y) {
-        this.y = y;
+    public void setPosY(Float y) {
+        this.posY = y;
     }
 
-    public Integer getO() {
-        return o;
+    public Float getOrientation() {
+        return orientation;
     }
 
-    public void setO(Integer o) {
-        this.o = o;
+    public void setOrientation(Float o) {
+        this.orientation = o;
     }
 
 }

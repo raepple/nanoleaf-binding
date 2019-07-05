@@ -12,8 +12,7 @@
  */
 package org.openhab.binding.nanoleaf.internal.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Represents rhythm module settings
@@ -22,33 +21,17 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Rhythm {
 
-    @SerializedName("rhythmConnected")
-    @Expose
     private Boolean rhythmConnected;
-    @SerializedName("rhythmActive")
-    @Expose
     private Boolean rhythmActive;
-    @SerializedName("rhythmId")
-    @Expose
     private Integer rhythmId;
-    @SerializedName("hardwareVersion")
-    @Expose
     private String hardwareVersion;
-    @SerializedName("firmwareVersion")
-    @Expose
     private String firmwareVersion;
-    @SerializedName("auxAvailable")
-    @Expose
     private Boolean auxAvailable;
-    @SerializedName("rhythmMode")
-    @Expose
     private Integer rhythmMode;
-    @SerializedName("rhythmPos")
-    @Expose
     private RhythmPos rhythmPos;
 
     public Boolean getRhythmConnected() {
-        return rhythmConnected;
+        return rhythmConnected == null ? Boolean.FALSE : rhythmConnected;
     }
 
     public void setRhythmConnected(Boolean rhythmConnected) {
@@ -56,7 +39,7 @@ public class Rhythm {
     }
 
     public Boolean getRhythmActive() {
-        return rhythmActive;
+        return rhythmActive == null ? Boolean.FALSE : rhythmActive;
     }
 
     public void setRhythmActive(Boolean rhythmActive) {
@@ -64,7 +47,7 @@ public class Rhythm {
     }
 
     public Integer getRhythmId() {
-        return rhythmId;
+        return rhythmId == null ? new Integer(0) : this.rhythmId;
     }
 
     public void setRhythmId(Integer rhythmId) {
@@ -72,7 +55,7 @@ public class Rhythm {
     }
 
     public String getHardwareVersion() {
-        return hardwareVersion;
+        return hardwareVersion == null ? StringUtils.EMPTY : this.hardwareVersion;
     }
 
     public void setHardwareVersion(String hardwareVersion) {
@@ -80,7 +63,7 @@ public class Rhythm {
     }
 
     public String getFirmwareVersion() {
-        return firmwareVersion;
+        return firmwareVersion == null ? StringUtils.EMPTY : this.firmwareVersion;
     }
 
     public void setFirmwareVersion(String firmwareVersion) {
@@ -88,7 +71,7 @@ public class Rhythm {
     }
 
     public Boolean getAuxAvailable() {
-        return auxAvailable;
+        return auxAvailable == null ? Boolean.FALSE : this.auxAvailable;
     }
 
     public void setAuxAvailable(Boolean auxAvailable) {
@@ -96,7 +79,7 @@ public class Rhythm {
     }
 
     public Integer getRhythmMode() {
-        return rhythmMode;
+        return rhythmMode == null ? new Integer(-1) : rhythmMode;
     }
 
     public void setRhythmMode(Integer rhythmMode) {

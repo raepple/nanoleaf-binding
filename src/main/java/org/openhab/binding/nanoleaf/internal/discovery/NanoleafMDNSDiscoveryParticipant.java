@@ -25,25 +25,24 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.config.discovery.DiscoveryResult;
 import org.eclipse.smarthome.config.discovery.DiscoveryResultBuilder;
 import org.eclipse.smarthome.config.discovery.mdns.MDNSDiscoveryParticipant;
+import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.thing.ThingUID;
+import org.openhab.binding.nanoleaf.internal.NanoleafBindingConstants;
 import org.openhab.binding.nanoleaf.internal.NanoleafHandlerFactory;
+import org.openhab.binding.nanoleaf.internal.OpenAPIUtils;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The {@link NanoleafMDNSDiscoveryParticipant} is responsible for discovering new Nanoleaf Light Panels.
+ * The {@link NanoleafMDNSDiscoveryParticipant} is responsible for discovering new Nanoleaf controllers (bridges).
  *
  * @author Martin Raepple - Initial contribution
  */
-
 @Component(immediate = true, configurationPid = "discovery.nanoleaf")
 @NonNullByDefault
 public class NanoleafMDNSDiscoveryParticipant implements MDNSDiscoveryParticipant {
-
-    // see http://forum.nanoleaf.me/docs/openapi#_gf9l5guxt8r0
-    private static final String SERVICE_TYPE = "_nanoleafapi._tcp.local.";
 
     private final Logger logger = LoggerFactory.getLogger(NanoleafMDNSDiscoveryParticipant.class);
 
@@ -65,17 +64,23 @@ public class NanoleafMDNSDiscoveryParticipant implements MDNSDiscoveryParticipan
         }
         final Map<String, Object> properties = new HashMap<>(2);
         String host = service.getHostAddresses()[0];
-        properties.put(CONFIG_IP_ADDRESS, host);
+        properties.put(CONFIG_ADDRESS, host);
         int port = service.getPort();
         properties.put(CONFIG_PORT, port);
+        String firmwareVersion = service.getPropertyString("srcvers");
+        properties.put(Thing.PROPERTY_FIRMWARE_VERSION, firmwareVersion);
+        properties.put(Thing.PROPERTY_MODEL_ID, service.getPropertyString("md"));
+        properties.put(Thing.PROPERTY_VENDOR, "Nanoleaf");
 
-        logger.debug("Nanoleaf found: {} {}", host, port);
-        String name = service.getName();
-
-        logger.debug("Adding Nanoleaf light panels to inbox: {} at {}", uid.getId(), host);
+        logger.debug("Adding Nanoleaf controller with FW version {} found at {} {} to inbox", firmwareVersion, host,
+                port);
+        if (!OpenAPIUtils.checkRequiredFirmware(firmwareVersion)) {
+            logger.warn("Nanoleaf controller firmware is too old. Must be {} or higher",
+                    NanoleafBindingConstants.API_MIN_FW_VER);
+        }
         final DiscoveryResult result = DiscoveryResultBuilder.create(uid).withThingType(getThingType(service))
-                .withProperties(properties).withLabel(name).build();
-
+                .withProperties(properties).withLabel(service.getName()).withRepresentationProperty(CONFIG_ADDRESS)
+                .build();
         return result;
     }
 
@@ -96,6 +101,6 @@ public class NanoleafMDNSDiscoveryParticipant implements MDNSDiscoveryParticipan
         if (model == null) {
             return null;
         }
-        return THING_TYPE_LIGHT_PANEL;
+        return THING_TYPE_CONTROLLER;
     }
 }
